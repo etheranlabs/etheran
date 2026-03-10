@@ -22,17 +22,19 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProviderProfilePage({ params }: Props) {
   const address = params.address.toLowerCase()
 
-  const [provider, reputation, jobs, ens] = await Promise.all([
-    getProvider(address),
+  const [providers, reputation, jobs, ens] = await Promise.all([
+    fetchAllProviders(),
     computeReputation(address),
-    getJobs({ provider: address, limit: 50 }),
+    fetchJobsByProvider(address),
     resolveEns(address),
   ])
 
-  if (!provider) notFound()
+  const provider = providers.find((p: any) => p.address.toLowerCase() === address)
+if (!provider) notFound()
 
   const total = provider.jobsCompleted + provider.jobsRejected + provider.jobsExpired
   const completionRate = total > 0 ? (provider.jobsCompleted / total) * 100 : 0
+  const totalVol = Number(BigInt(provider.totalVolume ?? "0")) / 1e18
   const avgJobValue = provider.jobsCompleted > 0 ? totalVol / provider.jobsCompleted : 0
 
   return (

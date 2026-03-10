@@ -9,7 +9,7 @@ import { StatusBadge } from './status-badge'
 const ALL_STATUSES = ['open', 'funded', 'submitted', 'completed', 'rejected', 'expired']
 
 interface JobTableProps {
-  jobs: Job[]
+  jobs: SubgraphJob[]
   showFilter?: boolean
   dark?: boolean
 }
@@ -120,7 +120,7 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
                   )}
                 </td>
                 <td className={dark ? 'text-[#555552]' : 'text-text-muted'}>
-                  {relativeTime(Number(job.createdAt) * 1000)}
+                  {relativeTime(new Date(Number(job.createdAt) * 1000).toISOString())}
                 </td>
               </tr>
             ))}

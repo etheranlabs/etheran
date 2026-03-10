@@ -51,11 +51,11 @@ export default async function AnalyticsPage() {
 
   const evalCount = data?.evaluators.length ?? 0
   const avgEvalTime = evalCount > 0
-    ? (data!.evaluators.reduce((acc, e) => acc + (e.avg_response_time_hours ?? 0), 0) / evalCount)
+    ? (data!.evaluators.reduce((acc, e) => acc + (0), 0) / evalCount)
     : 0
 
   const totalEvals =
-    data?.evaluators.reduce((acc, e) => acc + e.evaluations_completed + e.evaluations_rejected, 0) ?? 0
+    data?.evaluators.reduce((acc, e) => acc + e.evaluationsCompleted + e.evaluationsRejected, 0) ?? 0
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
@@ -176,9 +176,9 @@ export default async function AnalyticsPage() {
               {data.providers.slice(0, 20).map((p, i) => {
                 const total = p.jobsCompleted + p.jobsRejected + p.jobsExpired
                 const maxTotal = data.providers[0]
-                  ? data.providers[0].jobs_completed +
-                    data.providers[0].jobs_rejected +
-                    data.providers[0].jobs_expired
+                  ? data.providers[0].jobsCompleted +
+                    data.providers[0].jobsRejected +
+                    data.providers[0].jobsExpired
                   : 1
                 const pct = total / maxTotal
 

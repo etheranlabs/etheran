@@ -54,8 +54,8 @@ export default async function ProvidersPage() {
             {providers.length > 0
               ? Math.round(
                   (providers.reduce((acc, p) => {
-                    const total = p.jobs_completed + p.jobs_rejected + p.jobs_expired
-                    return acc + (total > 0 ? p.jobs_completed / total : 0)
+                    const total = p.jobsCompleted + p.jobsRejected + p.jobsExpired
+                    return acc + (total > 0 ? p.jobsCompleted / total : 0)
                   }, 0) /
                     providers.length) *
                     1000
