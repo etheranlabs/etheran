@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Nav } from '@/components/nav'
+import { Web3Providers } from '@/components/web3-providers'
 import { Footer } from '@/components/footer'
 import localFont from 'next/font/local'
 
@@ -63,9 +64,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${jetbrains.variable}`}>
       <body className="min-h-screen flex flex-col bg-bg text-text">
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <Web3Providers>
+          <Nav />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </Web3Providers>
       </body>
     </html>
   )
