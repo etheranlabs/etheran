@@ -5,9 +5,13 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 const Logo = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <polygon points="12 2 22 20 2 20" strokeWidth="2" strokeLinejoin="round" />
-    <line x1="12" y1="9" x2="12" y2="15" strokeWidth="2.5" strokeLinecap="round" />
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2.2">
+    {/* Upper-left to center */}
+    <line x1="3" y1="4" x2="14" y2="12" />
+    {/* Lower-left to center */}
+    <line x1="3" y1="20" x2="14" y2="12" />
+    {/* Center to right */}
+    <line x1="14" y1="12" x2="22" y2="12" />
   </svg>
 )
 
