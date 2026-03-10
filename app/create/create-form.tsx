@@ -67,20 +67,15 @@ export default function CreateJobPage() {
       <div className="border border-border p-5 mb-8">
         <p className="font-mono text-[10px] uppercase tracking-[0.06em] text-text-muted mb-3">Wallet</p>
         {!isConnected ? (
-          <div>
-            <p className="font-mono text-[11px] text-text-muted mb-4">Connect your wallet to post a job on-chain.</p>
-            <div className="flex flex-wrap gap-2">
-              {connectors.map((connector) => (
-                <button
-                  key={connector.uid}
-                  onClick={() => connect({ connector })}
-                  disabled={isConnecting}
-                  className="font-mono text-[10px] uppercase tracking-[0.06em] border border-border px-4 py-2 text-text-muted hover:border-text hover:text-text transition-colors disabled:opacity-50"
-                >
-                  {connector.name}
-                </button>
-              ))}
-            </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="font-mono text-[11px] text-text-muted">Connect your wallet to post a job on-chain.</p>
+            <button
+              onClick={() => connect({ connector: connectors[0] })}
+              disabled={isConnecting}
+              className="shrink-0 font-mono text-[10px] uppercase tracking-[0.06em] border border-text px-5 py-2.5 text-text hover:bg-text hover:text-bg transition-colors disabled:opacity-50"
+            >
+              {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+            </button>
           </div>
         ) : (
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
