@@ -29,8 +29,25 @@ export default async function ProviderProfilePage({ params }: Props) {
     resolveEns(address),
   ])
 
-  const provider = providers.find((p: any) => p.address.toLowerCase() === address)
-if (!provider) notFound()
+  // Provider might not be in subgraph providers list yet (only created after job completed/rejected)
+// Build synthetic provider from job data as fallback
+let providerEntry = providers.find((p: any) => p.address.toLowerCase() === address)
+
+if (!providerEntry && jobs.length === 0) notFound()
+
+const completedJobs = jobs.filter((j: any) => j.status === 'completed')
+const rejectedJobs = jobs.filter((j: any) => j.status === 'rejected')
+const expiredJobs = jobs.filter((j: any) => j.status === 'expired')
+
+const provider = providerEntry ?? {
+  id: address, address,
+  jobsCompleted: completedJobs.length,
+  jobsRejected: rejectedJobs.length,
+  jobsExpired: expiredJobs.length,
+  totalVolume: jobs.reduce((acc: bigint, j: any) => acc + BigInt(j.value ?? '0'), BigInt(0)).toString(),
+  firstJobAt: jobs.length > 0 ? jobs[jobs.length - 1].createdAt : '0',
+  lastJobAt: jobs.length > 0 ? jobs[0].createdAt : '0',
+}
 
   const total = provider.jobsCompleted + provider.jobsRejected + provider.jobsExpired
   const completionRate = total > 0 ? (provider.jobsCompleted / total) * 100 : 0
