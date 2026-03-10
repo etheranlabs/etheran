@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Nav } from '@/components/nav'
-import { Web3Providers } from '@/components/web3-providers'
+import dynamic from 'next/dynamic'
+const Web3Providers = dynamic(() => import('@/components/web3-providers').then(m => m.Web3Providers), { ssr: false, loading: () => <></> })
 import { Footer } from '@/components/footer'
 import localFont from 'next/font/local'
 
