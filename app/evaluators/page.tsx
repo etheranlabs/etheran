@@ -16,13 +16,13 @@ export default async function EvaluatorsPage() {
   } catch {}
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       {/* Header */}
       <div className="border-b border-border pb-8 mb-8">
         <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-3">
           Intelligence Layer
         </p>
-        <h1 className="font-display font-light text-5xl text-text tracking-wide">
+        <h1 className="font-display font-light text-3xl sm:text-5xl text-text tracking-wide">
           Evaluator Performance
         </h1>
         <p className="font-mono text-[11px] text-text-muted mt-4 max-w-xl leading-relaxed">

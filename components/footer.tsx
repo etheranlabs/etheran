@@ -24,8 +24,8 @@ const Logo = () => (
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-bg mt-24">
-      <div className="max-w-7xl mx-auto px-6 py-10 flex items-center justify-between">
+    <footer className="border-t border-border bg-bg mt-16 sm:mt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         {/* Wordmark */}
         <div className="flex items-center gap-2.5 text-text-muted">
           <Logo />

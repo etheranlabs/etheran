@@ -58,7 +58,7 @@ export default async function AnalyticsPage() {
     data?.evaluators.reduce((acc, e) => acc + e.evaluationsCompleted + e.evaluationsRejected, 0) ?? 0
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       {/* Header */}
       <div className="border-b border-border pb-8 mb-12">
         <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-3">
@@ -74,7 +74,7 @@ export default async function AnalyticsPage() {
 
       {/* Summary row */}
       {data?.summary && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-8 sm:mb-12">
           {[
             { label: 'Total Jobs', value: data.summary.totalJobs.toLocaleString() },
             { label: 'Volume Settled', value: formatVolume(data.summary.totalVolume) },

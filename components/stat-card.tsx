@@ -12,11 +12,11 @@ export function StatCard({ label, value, sub, dark }: StatCardProps) {
   const subColor = dark ? 'text-[#444441]' : 'text-text-muted'
 
   return (
-    <div className={`border ${bg} p-6`}>
+    <div className={`border ${bg} p-4 sm:p-6`}>
       <p className={`font-mono text-[10px] uppercase tracking-[0.08em] ${labelColor} mb-3`}>
         {label}
       </p>
-      <p className={`font-display font-light text-5xl leading-none ${valueColor}`}>
+      <p className={`font-display font-light text-4xl sm:text-5xl leading-none ${valueColor}`}>
         {value}
       </p>
       {sub && (
@@ -32,7 +32,7 @@ export function StatCardSkeleton({ dark }: { dark?: boolean }) {
   const shimmer = dark ? 'bg-[#1e1e1c]' : 'bg-[#e8e8e4]'
 
   return (
-    <div className={`border ${bg} p-6`}>
+    <div className={`border ${bg} p-4 sm:p-6`}>
       <div className={`h-3 w-24 ${shimmer} mb-3 rounded`} />
       <div className={`h-12 w-32 ${shimmer} rounded`} />
     </div>

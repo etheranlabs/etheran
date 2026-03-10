@@ -23,7 +23,7 @@ export default async function HomePage() {
     <div>
       {/* Banner */}
       <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-20 flex items-end justify-between gap-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-12">
           <div>
             <div className="flex items-center gap-4 mb-2">
               <svg width="40" height="40" viewBox="0 0 52 52" fill="none" aria-hidden>
@@ -64,7 +64,7 @@ export default async function HomePage() {
       {/* Live Stats */}
       <section className="border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-3 gap-px bg-border">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border">
             {summary ? (
               <>
                 <StatCard
@@ -107,7 +107,7 @@ export default async function HomePage() {
           </h2>
 
           {/* Horizontal timeline */}
-          <div className="flex items-start gap-0 overflow-x-auto">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-0 overflow-x-auto">
             {[
               {
                 state: 'Open',
@@ -135,7 +135,7 @@ export default async function HomePage() {
                 desc: 'Evaluator rejects deliverable, or job passes expiry without submission.',
               },
             ].map((step, i, arr) => (
-              <div key={step.state} className="flex items-start flex-1 min-w-[160px]">
+              <div key={step.state} className="flex items-start sm:flex-1 sm:min-w-[160px] border-b sm:border-b-0 border-border last:border-b-0 pb-6 sm:pb-0 mb-0">
                 <div className="flex-1 pr-4">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-mono text-[10px] text-text-muted w-5 shrink-0">

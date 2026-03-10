@@ -55,7 +55,7 @@ const provider = providerEntry ?? {
   const avgJobValue = provider.jobsCompleted > 0 ? totalVol / provider.jobsCompleted : 0
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 mb-8">
         <Link
@@ -96,7 +96,7 @@ const provider = providerEntry ?? {
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-2">
             Reputation Score
           </p>
-          <p className="font-display font-light text-[80px] leading-none text-text">
+          <p className="font-display font-light text-[52px] sm:text-[80px] leading-none text-text">
             {reputation?.score ?? '—'}
           </p>
           <p className="font-mono text-[10px] text-text-muted mt-1">out of 100</p>
@@ -104,7 +104,7 @@ const provider = providerEntry ?? {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-8 sm:mb-12">
         {[
           {
             label: 'Completion Rate',
@@ -137,7 +137,7 @@ const provider = providerEntry ?? {
       </div>
 
       {/* Dates */}
-      <div className="flex items-center gap-8 mb-12">
+      <div className="flex flex-wrap items-center gap-4 sm:gap-8 mb-8 sm:mb-12">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1">
             First Job
@@ -159,7 +159,7 @@ const provider = providerEntry ?? {
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-6">
             Score Breakdown
           </p>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div>
               <p className="font-mono text-[10px] text-text-muted mb-1">
                 Completion (60%)
