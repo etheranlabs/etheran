@@ -92,7 +92,8 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
                 </td>
                 <td>
                   <Link
-                    href={`/providers/${job.client}`}
+                    href={`https://sepolia.basescan.org/address/${job.client}`}
+                    target="_blank" rel="noopener noreferrer"
                     className="hover:underline underline-offset-2"
                   >
                     {job.client.slice(0, 8)}...{job.client.slice(-4)}
