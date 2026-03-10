@@ -176,3 +176,7 @@ export async function fetchJob(id: string): Promise<SubgraphJob | null> {
   `, { id })
   return data.job
 }
+
+// Alias for convenience
+export const fetchAllJobs = fetchRecentJobs
+
