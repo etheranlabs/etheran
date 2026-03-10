@@ -1,0 +1,37 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ERC8183
+    network: base-sepolia
+    source:
+      address: "0x0000000000000000000000000000000000000000"  # Replace with actual deployment address
+      abi: ERC8183
+      startBlock: 0  # Replace with contract deployment block
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Job
+        - Provider
+        - Evaluator
+        - DailyStat
+      abis:
+        - name: ERC8183
+          file: ./abis/ERC8183.json
+      eventHandlers:
+        - event: JobCreated(indexed uint256,indexed address,indexed address,address,uint256,string,uint256)
+          handler: handleJobCreated
+        - event: JobFunded(indexed uint256,indexed address)
+          handler: handleJobFunded
+        - event: JobSubmitted(indexed uint256,indexed address,string)
+          handler: handleJobSubmitted
+        - event: JobCompleted(indexed uint256,indexed address)
+          handler: handleJobCompleted
+        - event: JobRejected(indexed uint256,indexed address)
+          handler: handleJobRejected
+        - event: JobExpired(indexed uint256)
+          handler: handleJobExpired
+      file: ./src/mappings.ts

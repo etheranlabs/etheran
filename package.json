@@ -1,0 +1,31 @@
+{
+  "name": "etheran",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fontsource/cormorant-garamond": "^5.2.11",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@supabase/supabase-js": "^2.99.0",
+    "@tanstack/react-query": "^5.90.21",
+    "next": "14.2.35",
+    "react": "^18",
+    "react-dom": "^18",
+    "recharts": "^3.8.0",
+    "viem": "^2.47.1",
+    "wagmi": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

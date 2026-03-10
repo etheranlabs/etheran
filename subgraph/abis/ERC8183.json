@@ -1,0 +1,61 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "jobId", "type": "uint256" },
+      { "indexed": true, "name": "client", "type": "address" },
+      { "indexed": true, "name": "provider", "type": "address" },
+      { "indexed": false, "name": "evaluator", "type": "address" },
+      { "indexed": false, "name": "value", "type": "uint256" },
+      { "indexed": false, "name": "specHash", "type": "string" },
+      { "indexed": false, "name": "expiresAt", "type": "uint256" }
+    ],
+    "name": "JobCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "jobId", "type": "uint256" },
+      { "indexed": true, "name": "funder", "type": "address" }
+    ],
+    "name": "JobFunded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "jobId", "type": "uint256" },
+      { "indexed": true, "name": "provider", "type": "address" },
+      { "indexed": false, "name": "deliverableHash", "type": "string" }
+    ],
+    "name": "JobSubmitted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "jobId", "type": "uint256" },
+      { "indexed": true, "name": "evaluator", "type": "address" }
+    ],
+    "name": "JobCompleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "jobId", "type": "uint256" },
+      { "indexed": true, "name": "evaluator", "type": "address" }
+    ],
+    "name": "JobRejected",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "jobId", "type": "uint256" }
+    ],
+    "name": "JobExpired",
+    "type": "event"
+  }
+]

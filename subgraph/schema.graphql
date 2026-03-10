@@ -1,0 +1,47 @@
+type Job @entity {
+  id: ID!
+  client: Bytes!
+  provider: Bytes!
+  evaluator: Bytes!
+  value: BigInt!
+  specHash: String!
+  deliverableHash: String
+  status: String!
+  createdAt: BigInt!
+  fundedAt: BigInt
+  submittedAt: BigInt
+  resolvedAt: BigInt
+  expiresAt: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+}
+
+type Provider @entity {
+  id: ID!
+  address: Bytes!
+  jobsCompleted: Int!
+  jobsRejected: Int!
+  jobsExpired: Int!
+  totalVolume: BigInt!
+  firstJobAt: BigInt!
+  lastJobAt: BigInt!
+}
+
+type Evaluator @entity {
+  id: ID!
+  address: Bytes!
+  evaluationsCompleted: Int!
+  evaluationsRejected: Int!
+  firstEvaluationAt: BigInt!
+  lastEvaluationAt: BigInt!
+}
+
+type DailyStat @entity {
+  id: ID! # YYYY-MM-DD
+  date: String!
+  jobsCreated: Int!
+  jobsCompleted: Int!
+  jobsRejected: Int!
+  jobsExpired: Int!
+  volumeSettled: BigInt!
+}
