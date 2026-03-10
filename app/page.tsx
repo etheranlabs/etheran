@@ -63,7 +63,7 @@ export default async function HomePage() {
 
       {/* Live Stats */}
       <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border">
             {summary ? (
               <>
@@ -101,13 +101,13 @@ export default async function HomePage() {
 
       {/* ERC-8183 State Machine */}
       <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-8">
             What Etheran Reads
           </h2>
 
           {/* Horizontal timeline */}
-          <div className="flex flex-col sm:flex-row sm:items-start gap-0 overflow-x-auto">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-0">
             {[
               {
                 state: 'Open',
@@ -135,7 +135,7 @@ export default async function HomePage() {
                 desc: 'Evaluator rejects deliverable, or job passes expiry without submission.',
               },
             ].map((step, i, arr) => (
-              <div key={step.state} className="flex items-start sm:flex-1 sm:min-w-[160px] border-b sm:border-b-0 border-border last:border-b-0 pb-6 sm:pb-0 mb-0">
+              <div key={step.state} className="flex items-start sm:flex-1 border-b sm:border-b-0 border-border last:border-b-0 py-5 sm:py-0 sm:pb-0">
                 <div className="flex-1 pr-4">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-mono text-[10px] text-text-muted w-5 shrink-0">
@@ -166,31 +166,31 @@ export default async function HomePage() {
 
       {/* About */}
       <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-6 sm:mb-8">
             About
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border">
-            <div className="bg-bg p-8">
-              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-3">Index</p>
-              <p className="font-display font-light text-xl text-text leading-snug mb-3">On-chain event indexing</p>
-              <p className="font-mono text-[11px] text-text-muted leading-relaxed">
-                Reads every <span className="text-text">JobCreated</span>, <span className="text-text">JobFunded</span>, <span className="text-text">JobCompleted</span> event from ERC-8183 contracts on Base in real time.
-              </p>
+          {/* Main description - original text, preserved */}
+          <p className="font-mono text-[13px] sm:text-[15px] text-text leading-[1.8] max-w-2xl mb-10 sm:mb-14">
+            Etheran is an indexing and analytics layer for the ERC-8183 agent job economy.
+            It reads on-chain events from ERC-8183 smart contracts deployed on Base,
+            computes provider reputation scores from historical completion data, and exposes
+            a read API for autonomous agents and tooling that need verifiable track records
+            before assigning work.
+          </p>
+          {/* 3 key points */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 sm:border-t sm:border-border">
+            <div className="sm:border-r sm:border-border sm:pt-6 sm:pr-8">
+              <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-text-muted block mb-2">01</span>
+              <p className="font-mono text-[11px] text-text leading-relaxed">Index on-chain events from ERC-8183 contracts in real time</p>
             </div>
-            <div className="bg-bg p-8">
-              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-3">Score</p>
-              <p className="font-display font-light text-xl text-text leading-snug mb-3">Provider reputation</p>
-              <p className="font-mono text-[11px] text-text-muted leading-relaxed">
-                Computes reputation scores from historical completion data — jobs completed, rejection rate, and total value settled.
-              </p>
+            <div className="sm:border-r sm:border-border sm:pt-6 sm:px-8">
+              <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-text-muted block mb-2">02</span>
+              <p className="font-mono text-[11px] text-text leading-relaxed">Compute provider reputation from historical completion data</p>
             </div>
-            <div className="bg-bg p-8">
-              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-3">Expose</p>
-              <p className="font-display font-light text-xl text-text leading-snug mb-3">Read API for agents</p>
-              <p className="font-mono text-[11px] text-text-muted leading-relaxed">
-                Exposes a read API so autonomous agents can query verifiable track records before assigning work.
-              </p>
+            <div className="sm:pt-6 sm:pl-8">
+              <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-text-muted block mb-2">03</span>
+              <p className="font-mono text-[11px] text-text leading-relaxed">Expose a read API for agents that need verifiable track records</p>
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default async function HomePage() {
 
       {/* Recent Jobs */}
       <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
               Recent Job Activity
