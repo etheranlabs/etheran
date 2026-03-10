@@ -6,9 +6,9 @@ dataSources:
     name: ERC8183
     network: base-sepolia
     source:
-      address: "0x0000000000000000000000000000000000000000"  # Replace with actual deployment address
+      address: "0x25E78Fa7cD4D52Fa752D725f128ADDF2B73040e0"
       abi: ERC8183
-      startBlock: 0  # Replace with contract deployment block
+      startBlock: 38684018
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

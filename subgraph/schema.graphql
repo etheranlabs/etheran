@@ -1,4 +1,4 @@
-type Job @entity {
+type Job @entity(immutable: false) {
   id: ID!
   client: Bytes!
   provider: Bytes!
@@ -16,7 +16,7 @@ type Job @entity {
   txHash: Bytes!
 }
 
-type Provider @entity {
+type Provider @entity(immutable: false) {
   id: ID!
   address: Bytes!
   jobsCompleted: Int!
@@ -27,7 +27,7 @@ type Provider @entity {
   lastJobAt: BigInt!
 }
 
-type Evaluator @entity {
+type Evaluator @entity(immutable: false) {
   id: ID!
   address: Bytes!
   evaluationsCompleted: Int!
@@ -36,7 +36,7 @@ type Evaluator @entity {
   lastEvaluationAt: BigInt!
 }
 
-type DailyStat @entity {
+type DailyStat @entity(immutable: false) {
   id: ID! # YYYY-MM-DD
   date: String!
   jobsCreated: Int!
