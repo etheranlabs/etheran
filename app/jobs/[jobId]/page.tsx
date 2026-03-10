@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getJob } from '@/lib/supabase'
+import { fetchJob } from '@/lib/subgraph'
 import { basescanTx, basescanAddress } from '@/lib/viem'
 import { formatDate, relativeTime, formatEth } from '@/lib/format'
 import { StatusBadge } from '@/components/status-badge'
@@ -26,19 +26,19 @@ function getStateIndex(status: string): number {
 }
 
 export default async function JobDetailPage({ params }: Props) {
-  const job = await getJob(params.jobId)
+  const job = await fetchJob(params.jobId)
   if (!job) notFound()
 
   const stateIndex = getStateIndex(job.status)
 
   const timeline = [
-    { label: 'Open', key: 'open', time: job.created_at },
-    { label: 'Funded', key: 'funded', time: job.funded_at },
-    { label: 'Submitted', key: 'submitted', time: job.submitted_at },
+    { label: 'Open', key: 'open', time: new Date(Number(job.createdAt) * 1000).toISOString() },
+    { label: 'Funded', key: 'funded', time: job.fundedAt ? new Date(Number(job.fundedAt) * 1000).toISOString() : null },
+    { label: 'Submitted', key: 'submitted', time: job.submittedAt ? new Date(Number(job.submittedAt) * 1000).toISOString() : null },
     {
       label: job.status === 'rejected' ? 'Rejected' : job.status === 'expired' ? 'Expired' : 'Completed',
       key: 'completed',
-      time: job.resolved_at,
+      time: job.resolvedAt ? new Date(Number(job.resolvedAt) * 1000).toISOString() : null,
     },
   ]
 
@@ -66,7 +66,7 @@ export default async function JobDetailPage({ params }: Props) {
             <StatusBadge status={job.status} />
           </div>
           <p className="font-mono text-[11px] text-text-muted">
-            Created {relativeTime(job.created_at)} — {formatDate(job.created_at)}
+            Created {relativeTime(new Date(Number(job.createdAt) * 1000).toISOString())} — {formatDate(new Date(Number(job.createdAt) * 1000).toISOString())}
           </p>
         </div>
         <div className="text-right shrink-0">
@@ -74,7 +74,7 @@ export default async function JobDetailPage({ params }: Props) {
             Value
           </p>
           <p className="font-display font-light text-4xl text-text">
-            {formatEth(job.value)}
+            {formatEth(Number(BigInt(job.value ?? '0')) / 1e18)}
           </p>
         </div>
       </div>
@@ -157,23 +157,23 @@ export default async function JobDetailPage({ params }: Props) {
         <div className="space-y-4">
           <div>
             <p className="font-mono text-[10px] text-text-muted mb-1">Spec Hash</p>
-            <p className="font-mono text-xs text-text break-all">{job.spec_hash}</p>
+            <p className="font-mono text-xs text-text break-all">{job.specHash}</p>
           </div>
-          {job.deliverable_hash && (
+          {job.deliverableHash && (
             <div>
               <p className="font-mono text-[10px] text-text-muted mb-1">Deliverable Hash</p>
-              <p className="font-mono text-xs text-text break-all">{job.deliverable_hash}</p>
+              <p className="font-mono text-xs text-text break-all">{job.deliverableHash}</p>
             </div>
           )}
           <div>
             <p className="font-mono text-[10px] text-text-muted mb-1">Transaction Hash</p>
             <a
-              href={basescanTx(job.tx_hash)}
+              href={basescanTx(job.txHash)}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-xs text-text hover:underline underline-offset-2 break-all"
             >
-              {job.tx_hash}
+              {job.txHash}
             </a>
           </div>
         </div>
@@ -186,11 +186,11 @@ export default async function JobDetailPage({ params }: Props) {
         </p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {[
-            { label: 'Created', value: job.created_at },
-            { label: 'Funded', value: job.funded_at },
-            { label: 'Submitted', value: job.submitted_at },
-            { label: 'Resolved', value: job.resolved_at },
-            { label: 'Expires', value: job.expires_at },
+            { label: 'Created', value: new Date(Number(job.createdAt) * 1000).toISOString() },
+            { label: 'Funded', value: job.fundedAt ? new Date(Number(job.fundedAt) * 1000).toISOString() : null },
+            { label: 'Submitted', value: job.submittedAt ? new Date(Number(job.submittedAt) * 1000).toISOString() : null },
+            { label: 'Resolved', value: job.resolvedAt ? new Date(Number(job.resolvedAt) * 1000).toISOString() : null },
+            { label: 'Expires', value: new Date(Number(job.expiresAt) * 1000).toISOString() },
           ]
             .filter((ts) => ts.value)
             .map((ts) => (
@@ -202,10 +202,10 @@ export default async function JobDetailPage({ params }: Props) {
         </div>
         <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
           <p className="font-mono text-[10px] text-text-muted">
-            Block {job.block_number.toLocaleString()}
+            Block {job.blockNumber.toLocaleString()}
           </p>
           <a
-            href={basescanTx(job.tx_hash)}
+            href={basescanTx(job.txHash)}
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-[10px] uppercase tracking-[0.06em] text-text-muted hover:text-text transition-colors"

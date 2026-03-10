@@ -1,28 +1,23 @@
 import { StatCard, StatCardSkeleton } from '@/components/stat-card'
 import { JobTable } from '@/components/job-table'
-import { getAnalyticsSummary, getJobs } from '@/lib/supabase'
+import { fetchAllJobs, fetchAllProviders, fetchAllEvaluators } from '@/lib/subgraph'
 import { formatVolume } from '@/lib/format'
 
 export const revalidate = 60
 
-async function getSummary() {
-  try {
-    return await getAnalyticsSummary()
-  } catch {
-    return null
-  }
-}
-
-async function getRecentJobs() {
-  try {
-    return await getJobs({ limit: 10 })
-  } catch {
-    return []
-  }
-}
-
 export default async function HomePage() {
-  const [summary, recentJobs] = await Promise.all([getSummary(), getRecentJobs()])
+  const [allJobs, allProviders] = await Promise.all([
+    fetchAllJobs(1000).catch(() => []),
+    fetchAllProviders().catch(() => []),
+  ])
+
+  const recentJobs = allJobs.slice(0, 10)
+  const totalJobs = allJobs.length
+  const totalVolumeWei = allJobs.reduce((acc: bigint, j: any) => acc + BigInt(j.value ?? '0'), BigInt(0))
+  const totalVolume = Number(totalVolumeWei) / 1e18
+  const completedJobs = allJobs.filter((j: any) => j.status === 'completed').length
+  const completionRate = totalJobs > 0 ? Math.round((completedJobs / totalJobs) * 1000) / 10 : 0
+  const summary = { totalJobs, totalVolume, activeProviders: allProviders.length, completionRate }
 
   return (
     <div>

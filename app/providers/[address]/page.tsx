@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getProvider, getJobs } from '@/lib/supabase'
+import { fetchAllProviders, fetchJobsByProvider, type SubgraphProvider } from '@/lib/subgraph'
 import { computeReputation } from '@/lib/reputation'
 import { resolveEns, basescanAddress } from '@/lib/viem'
 import { formatDate, relativeTime, formatVolume, formatEth, formatPercent } from '@/lib/format'
@@ -31,9 +31,9 @@ export default async function ProviderProfilePage({ params }: Props) {
 
   if (!provider) notFound()
 
-  const total = provider.jobs_completed + provider.jobs_rejected + provider.jobs_expired
-  const completionRate = total > 0 ? (provider.jobs_completed / total) * 100 : 0
-  const avgJobValue = provider.jobs_completed > 0 ? provider.total_volume / provider.jobs_completed : 0
+  const total = provider.jobsCompleted + provider.jobsRejected + provider.jobsExpired
+  const completionRate = total > 0 ? (provider.jobsCompleted / total) * 100 : 0
+  const avgJobValue = provider.jobsCompleted > 0 ? totalVol / provider.jobsCompleted : 0
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
@@ -93,7 +93,7 @@ export default async function ProviderProfilePage({ params }: Props) {
           },
           {
             label: 'Total Volume',
-            value: formatVolume(provider.total_volume),
+            value: formatVolume(totalVol),
           },
           {
             label: 'Avg Job Value',
@@ -102,7 +102,7 @@ export default async function ProviderProfilePage({ params }: Props) {
           {
             label: 'Jobs Total',
             value: total.toLocaleString(),
-            sub: `${provider.jobs_completed}c / ${provider.jobs_rejected}r / ${provider.jobs_expired}e`,
+            sub: `${provider.jobsCompleted}c / ${provider.jobsRejected}r / ${provider.jobsExpired}e`,
           },
         ].map((stat) => (
           <div key={stat.label} className="bg-bg p-6">
@@ -123,14 +123,14 @@ export default async function ProviderProfilePage({ params }: Props) {
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1">
             First Job
           </p>
-          <p className="font-mono text-xs text-text">{formatDate(provider.first_seen)}</p>
+          <p className="font-mono text-xs text-text">{formatDate(new Date(Number(provider.firstJobAt ?? '0') * 1000).toLocaleDateString())}</p>
         </div>
         <div className="h-8 w-px bg-border" />
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1">
             Last Active
           </p>
-          <p className="font-mono text-xs text-text">{formatDate(provider.last_active)}</p>
+          <p className="font-mono text-xs text-text">{formatDate(new Date(Number(provider.lastJobAt ?? '0') * 1000).toLocaleDateString())}</p>
         </div>
       </div>
 

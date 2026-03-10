@@ -1,4 +1,4 @@
-import { getProviders } from '@/lib/supabase'
+import { fetchAllProviders, type SubgraphProvider } from '@/lib/subgraph'
 import { ProviderTable } from '@/components/provider-table'
 
 export const revalidate = 60
@@ -8,9 +8,9 @@ export const metadata = {
   description: 'Provider track records ranked by completion rate, volume, and activity.',
 }
 
-async function fetchProviders() {
+async function fetchProviders(): Promise<SubgraphProvider[]> {
   try {
-    return await getProviders({ limit: 200 })
+    return await fetchAllProviders()
   } catch {
     return []
   }

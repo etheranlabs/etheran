@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import type { Job } from '@/lib/supabase'
+import type { SubgraphJob } from '@/lib/subgraph'
 import { formatDate, relativeTime, formatEth } from '@/lib/format'
 import { StatusBadge } from './status-badge'
 
@@ -106,7 +106,7 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
                     {job.provider.slice(0, 8)}...{job.provider.slice(-4)}
                   </Link>
                 </td>
-                <td>{formatEth(job.value)}</td>
+                <td>{formatEth(Number(BigInt(job.value ?? '0')) / 1e18)}</td>
                 <td>
                   {job.evaluator ? (
                     <Link
@@ -120,7 +120,7 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
                   )}
                 </td>
                 <td className={dark ? 'text-[#555552]' : 'text-text-muted'}>
-                  {relativeTime(job.created_at)}
+                  {relativeTime(Number(job.createdAt) * 1000)}
                 </td>
               </tr>
             ))}

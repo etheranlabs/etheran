@@ -1,4 +1,4 @@
-import { getEvaluators } from '@/lib/supabase'
+import { fetchAllEvaluators, type SubgraphEvaluator } from '@/lib/subgraph'
 import { formatDate, formatPercent } from '@/lib/format'
 import Link from 'next/link'
 
@@ -10,9 +10,9 @@ export const metadata = {
 }
 
 export default async function EvaluatorsPage() {
-  let evaluators: Awaited<ReturnType<typeof getEvaluators>> = []
+  let evaluators: SubgraphEvaluator[] = []
   try {
-    evaluators = await getEvaluators()
+    evaluators = await fetchAllEvaluators()
   } catch {}
 
   return (
@@ -52,14 +52,14 @@ export default async function EvaluatorsPage() {
             <tbody>
               {evaluators.map((ev) => {
                 const total =
-                  ev.evaluations_completed + ev.evaluations_rejected
+                  ev.evaluationsCompleted + ev.evaluationsRejected
                 const approveRate =
                   total > 0
-                    ? formatPercent((ev.evaluations_completed / total) * 100)
+                    ? formatPercent((ev.evaluationsCompleted / total) * 100)
                     : '—'
                 const rejectRate =
                   total > 0
-                    ? formatPercent((ev.evaluations_rejected / total) * 100)
+                    ? formatPercent((ev.evaluationsRejected / total) * 100)
                     : '—'
 
                 return (
@@ -73,12 +73,10 @@ export default async function EvaluatorsPage() {
                     <td>{approveRate}</td>
                     <td>{rejectRate}</td>
                     <td>
-                      {ev.avg_response_time_hours != null
-                        ? `${ev.avg_response_time_hours.toFixed(1)}h`
-                        : '—'}
+                      {'—'}
                     </td>
-                    <td className="text-text-muted">{formatDate(ev.first_seen)}</td>
-                    <td className="text-text-muted">{formatDate(ev.last_active)}</td>
+                    <td className="text-text-muted">{new Date(Number(ev.firstEvaluationAt ?? '0') * 1000).toLocaleDateString()}</td>
+                    <td className="text-text-muted">{new Date(Number(ev.lastEvaluationAt ?? '0') * 1000).toLocaleDateString()}</td>
                   </tr>
                 )
               })}

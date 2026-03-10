@@ -1,4 +1,4 @@
-import { getAnalyticsSummary, getDailyVolume, getProviders, getEvaluators } from '@/lib/supabase'
+import { fetchAllJobs, fetchAllProviders, fetchAllEvaluators } from '@/lib/subgraph'
 import { VolumeChart, JobCountChart } from '@/components/charts/volume-chart'
 import { CompletionChart } from '@/components/charts/completion-chart'
 import { formatVolume, formatPercent } from '@/lib/format'
@@ -12,18 +12,32 @@ export const metadata = {
 
 async function fetchData() {
   try {
-    const [summary, daily30, daily7, providers, evaluators] = await Promise.all([
-      getAnalyticsSummary(),
-      getDailyVolume(30),
-      getDailyVolume(7),
-      getProviders({ limit: 200 }),
-      getEvaluators(),
+    const [jobs, providers, evaluators] = await Promise.all([
+      fetchAllJobs(1000),
+      fetchAllProviders(),
+      fetchAllEvaluators(),
     ])
 
-    // Compute completion rate by day from daily data
-    const completionByDay = daily30.map((d) => ({
-      date: d.date,
-      rate: d.count > 0 ? (d.volume / (d.count * 0.1)) * 100 : 0, // approximate
+    const totalJobs = jobs.length
+    const totalVolumeWei = jobs.reduce((acc: bigint, j: any) => acc + BigInt(j.value ?? '0'), BigInt(0))
+    const totalVolume = Number(totalVolumeWei) / 1e18
+    const completedCount = jobs.filter((j: any) => j.status === 'completed').length
+    const completionRate = totalJobs > 0 ? Math.round((completedCount / totalJobs) * 1000) / 10 : 0
+    const summary = { totalJobs, totalVolume, activeProviders: providers.length, completionRate }
+
+    const byDay: Record<string, { count: number; volume: number; completed: number }> = {}
+    for (const job of jobs) {
+      const day = new Date(Number(job.createdAt) * 1000).toISOString().slice(0, 10)
+      if (!byDay[day]) byDay[day] = { count: 0, volume: 0, completed: 0 }
+      byDay[day].count++
+      byDay[day].volume += Number(BigInt(job.value ?? '0')) / 1e18
+      if (job.status === 'completed') byDay[day].completed++
+    }
+    const daily30 = Object.entries(byDay).sort().map(([date, d]) => ({ date, count: d.count, volume: d.volume }))
+    const daily7 = daily30.slice(-7)
+    const completionByDay = Object.entries(byDay).sort().map(([date, d]) => ({
+      date,
+      rate: d.count > 0 ? (d.completed / d.count) * 100 : 0,
     }))
 
     return { summary, daily30, daily7, completionByDay, providers, evaluators }
@@ -160,7 +174,7 @@ export default async function AnalyticsPage() {
           {data?.providers.length ? (
             <div className="space-y-1 max-h-[400px] overflow-y-auto">
               {data.providers.slice(0, 20).map((p, i) => {
-                const total = p.jobs_completed + p.jobs_rejected + p.jobs_expired
+                const total = p.jobsCompleted + p.jobsRejected + p.jobsExpired
                 const maxTotal = data.providers[0]
                   ? data.providers[0].jobs_completed +
                     data.providers[0].jobs_rejected +

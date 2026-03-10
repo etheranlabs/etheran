@@ -1,4 +1,4 @@
-import { getJobs } from '@/lib/supabase'
+import { fetchAllJobs, type SubgraphJob } from '@/lib/subgraph'
 import { JobTable } from '@/components/job-table'
 
 export const revalidate = 30
@@ -9,9 +9,9 @@ export const metadata = {
 }
 
 export default async function JobsPage() {
-  let jobs: Awaited<ReturnType<typeof getJobs>> = []
+  let jobs: SubgraphJob[] = []
   try {
-    jobs = await getJobs({ limit: 100 })
+    jobs = await fetchAllJobs(100)
   } catch {}
 
   return (
