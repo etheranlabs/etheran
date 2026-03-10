@@ -54,21 +54,14 @@ export function Nav() {
               {link.label}
             </Link>
           ))}
+          {/* Desktop Create Job button */}
           <Link
             href="/create"
-            onClick={() => setOpen(false)}
-            className="block px-6 py-4 font-mono text-[11px] tracking-[0.08em] uppercase text-text bg-bg-alt"
+            className="font-mono text-[10px] uppercase tracking-[0.06em] border border-text px-3 py-1.5 text-text hover:bg-text hover:text-bg transition-colors"
           >
             + Create Job
           </Link>
         </div>
-
-        <Link
-          href="/create"
-          className="hidden sm:block font-mono text-[10px] uppercase tracking-[0.06em] border border-text px-3 py-1.5 text-text hover:bg-text hover:text-bg transition-colors ml-2"
-        >
-          + Create Job
-        </Link>
 
         {/* Hamburger */}
         <button
@@ -98,6 +91,14 @@ export function Nav() {
               {link.label}
             </Link>
           ))}
+          {/* Mobile Create Job */}
+          <Link
+            href="/create"
+            onClick={() => setOpen(false)}
+            className="block px-6 py-4 font-mono text-[11px] tracking-[0.08em] uppercase text-text border-b border-border"
+          >
+            + Create Job
+          </Link>
         </div>
       )}
     </nav>
