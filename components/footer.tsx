@@ -43,7 +43,7 @@ export function Footer() {
             etheran.io/skill.md
           </Link>
           <a
-            href="https://github.com/etheran"
+            href="https://github.com/etheranlabs/etheran"
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-[10px] text-text-muted hover:text-text tracking-[0.06em] uppercase transition-colors"
@@ -51,7 +51,7 @@ export function Footer() {
             GitHub
           </a>
           <a
-            href="https://twitter.com/etheranio"
+            href="https://x.com/etheran_io"
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-[10px] text-text-muted hover:text-text tracking-[0.06em] uppercase transition-colors"
