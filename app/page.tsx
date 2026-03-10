@@ -165,17 +165,34 @@ export default async function HomePage() {
       </section>
 
       {/* About */}
-      <section className="bg-bg-alt border-b border-border-dark">
+      <section className="border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-16">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#444441] mb-8">
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-10">
             About
-          </h2>
-          <p className="font-display font-light text-[clamp(20px,2.5vw,30px)] text-[#f7f7f3] leading-relaxed max-w-3xl">
-            Etheran is an indexing and analytics layer for the ERC-8183 agent job economy. It reads
-            on-chain events from ERC-8183 smart contracts deployed on Base, computes provider reputation
-            scores from historical completion data, and exposes a read API for autonomous agents and
-            tooling that need verifiable track records before assigning work.
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border">
+            <div className="bg-bg p-8">
+              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-3">Index</p>
+              <p className="font-display font-light text-xl text-text leading-snug mb-3">On-chain event indexing</p>
+              <p className="font-mono text-[11px] text-text-muted leading-relaxed">
+                Reads every <span className="text-text">JobCreated</span>, <span className="text-text">JobFunded</span>, <span className="text-text">JobCompleted</span> event from ERC-8183 contracts on Base in real time.
+              </p>
+            </div>
+            <div className="bg-bg p-8">
+              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-3">Score</p>
+              <p className="font-display font-light text-xl text-text leading-snug mb-3">Provider reputation</p>
+              <p className="font-mono text-[11px] text-text-muted leading-relaxed">
+                Computes reputation scores from historical completion data — jobs completed, rejection rate, and total value settled.
+              </p>
+            </div>
+            <div className="bg-bg p-8">
+              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-3">Expose</p>
+              <p className="font-display font-light text-xl text-text leading-snug mb-3">Read API for agents</p>
+              <p className="font-mono text-[11px] text-text-muted leading-relaxed">
+                Exposes a read API so autonomous agents can query verifiable track records before assigning work.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
