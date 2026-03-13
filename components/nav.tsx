@@ -18,6 +18,7 @@ const Logo = () => (
 const links = [
   { href: '/providers', label: 'Providers' },
   { href: '/evaluators', label: 'Evaluators' },
+  { href: '/evaluators/registry', label: 'Registry' },
   { href: '/jobs', label: 'Jobs' },
   { href: '/analytics', label: 'Analytics' },
   { href: '/getstarted', label: 'Docs' },

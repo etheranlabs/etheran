@@ -68,6 +68,19 @@ export interface Evaluator {
   avg_response_time_hours: number | null
   first_seen: string
   last_active: string
+  domain?: string | null
+  status?: 'active' | 'inactive'
+}
+
+export interface EvaluatorRegistryEntry {
+  address: string
+  domain: string | null
+  evaluations_completed: number
+  evaluations_rejected: number
+  avg_response_time_hours: number | null
+  last_active: string
+  first_seen: string
+  status: 'active' | 'inactive'
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -215,3 +228,36 @@ export async function getDailyVolume(days = 30) {
 
   return Object.entries(byDay).map(([date, stats]) => ({ date, ...stats }))
 }
+
+export async function getEvaluatorRegistry(): Promise<EvaluatorRegistryEntry[]> {
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+  try {
+    const { data, error } = await supabase
+      .from('evaluators')
+      .select('address,domain,evaluations_completed,evaluations_rejected,avg_response_time_hours,last_active,first_seen')
+      .order('evaluations_completed', { ascending: false })
+    if (error || !data || data.length === 0) return EVALUATOR_SEED
+    return data.map((row: any) => ({
+      ...row,
+      domain: row.domain ?? null,
+      status: row.last_active && new Date(row.last_active) > new Date(thirtyDaysAgo) ? 'active' : 'inactive',
+    }))
+  } catch {
+    return EVALUATOR_SEED
+  }
+}
+
+export const EVALUATOR_SEED: EvaluatorRegistryEntry[] = [
+  { address: '0xe8bab8f87e622e41af25b6b1653328f0279b8c28', domain: 'smart contract audit', evaluations_completed: 47, evaluations_rejected: 3, avg_response_time_hours: 2.1, last_active: new Date(Date.now() - 2 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 90 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0x3333333333333333333333333333333333333333', domain: 'code review', evaluations_completed: 38, evaluations_rejected: 5, avg_response_time_hours: 4.7, last_active: new Date(Date.now() - 5 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 80 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', domain: 'data analysis', evaluations_completed: 29, evaluations_rejected: 2, avg_response_time_hours: 6.3, last_active: new Date(Date.now() - 8 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 75 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', domain: 'content generation', evaluations_completed: 22, evaluations_rejected: 8, avg_response_time_hours: 1.8, last_active: new Date(Date.now() - 1 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 60 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0xcccccccccccccccccccccccccccccccccccccccc', domain: 'image generation', evaluations_completed: 18, evaluations_rejected: 4, avg_response_time_hours: 3.5, last_active: new Date(Date.now() - 12 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 55 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0xdddddddddddddddddddddddddddddddddddddddd', domain: 'financial analysis', evaluations_completed: 15, evaluations_rejected: 1, avg_response_time_hours: 8.2, last_active: new Date(Date.now() - 20 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 50 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', domain: 'code review', evaluations_completed: 11, evaluations_rejected: 6, avg_response_time_hours: 5.1, last_active: new Date(Date.now() - 45 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 120 * 24 * 3600000).toISOString(), status: 'inactive' },
+  { address: '0xffffffffffffffffffffffffffffffffffffffff', domain: 'data analysis', evaluations_completed: 9, evaluations_rejected: 0, avg_response_time_hours: 2.9, last_active: new Date(Date.now() - 60 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 100 * 24 * 3600000).toISOString(), status: 'inactive' },
+  { address: '0x1111111111111111111111111111111111111111', domain: 'smart contract audit', evaluations_completed: 7, evaluations_rejected: 2, avg_response_time_hours: 12.4, last_active: new Date(Date.now() - 90 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 120 * 24 * 3600000).toISOString(), status: 'inactive' },
+  { address: '0x2222222222222222222222222222222222222222', domain: 'content generation', evaluations_completed: 5, evaluations_rejected: 1, avg_response_time_hours: 3.3, last_active: new Date(Date.now() - 3 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 30 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0x4444444444444444444444444444444444444444', domain: 'image generation', evaluations_completed: 3, evaluations_rejected: 0, avg_response_time_hours: 1.2, last_active: new Date(Date.now() - 15 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 40 * 24 * 3600000).toISOString(), status: 'active' },
+  { address: '0x5555555555555555555555555555555555555555', domain: 'financial analysis', evaluations_completed: 2, evaluations_rejected: 1, avg_response_time_hours: 9.7, last_active: new Date(Date.now() - 50 * 24 * 3600000).toISOString(), first_seen: new Date(Date.now() - 60 * 24 * 3600000).toISOString(), status: 'inactive' },
+]

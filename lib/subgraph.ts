@@ -127,6 +127,26 @@ export async function fetchAllEvaluators(): Promise<SubgraphEvaluator[]> {
   return data.evaluators
 }
 
+
+export async function fetchJobsByEvaluator(address: string): Promise<SubgraphJob[]> {
+  const data = await query<{ jobs: SubgraphJob[] }>(`
+    {
+      jobs(
+        first: 1000
+        orderBy: createdAt
+        orderDirection: desc
+        where: { evaluator: "${address.toLowerCase()}" }
+      ) {
+        id client provider evaluator value specHash deliverableHash
+        status createdAt fundedAt submittedAt resolvedAt expiresAt
+        txHash blockNumber
+      }
+    }
+  `)
+  return data.jobs
+}
+
+
 export async function fetchJobsByProvider(address: string): Promise<SubgraphJob[]> {
   const data = await query<{ jobs: SubgraphJob[] }>(`
     query JobsByProvider($address: Bytes!) {
@@ -151,6 +171,9 @@ export async function fetchJobsByProvider(address: string): Promise<SubgraphJob[
   `, { address: address.toLowerCase() })
   return data.jobs
 }
+
+
+
 
 export async function fetchJob(id: string): Promise<SubgraphJob | null> {
   const data = await query<{ job: SubgraphJob | null }>(`
