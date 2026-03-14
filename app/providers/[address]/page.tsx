@@ -6,6 +6,7 @@ import { resolveEns, basescanAddress } from '@/lib/viem'
 import { formatDate, relativeTime, formatVolume, formatEth, formatPercent } from '@/lib/format'
 import { JobTable } from '@/components/job-table'
 import { StatusBadge } from '@/components/status-badge'
+import { CopyButton } from '@/components/copy-button'
 
 export const revalidate = 60
 
@@ -200,6 +201,40 @@ const provider = providerEntry ?? {
         </div>
         <div className="border border-border">
           <JobTable jobs={jobs} />
+        </div>
+      </div>
+
+      {/* Embed Badge */}
+      <div className="mt-12 pt-8 border-t border-border">
+        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-6">
+          Embed Badge
+        </p>
+        <div className="mb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`/api/badge/${address}`} width={320} height={88} alt="Etheran reputation badge" />
+        </div>
+        {([
+          { label: 'HTML', value: `<img src="https://etheran.io/api/badge/${address}" width="320" height="88" alt="Etheran Reputation" />` },
+          { label: 'Markdown', value: `![Etheran Reputation](https://etheran.io/api/badge/${address})` },
+          { label: 'Direct URL', value: `https://etheran.io/api/badge/${address}` },
+        ] as const).map(({ label, value }) => (
+          <div key={label} className="mb-4">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted">{label}</span>
+              <CopyButton text={value} />
+            </div>
+            <pre className="font-mono text-[11px] text-text bg-bg border border-border px-4 py-3 overflow-x-auto whitespace-pre-wrap break-all">
+              {value}
+            </pre>
+          </div>
+        ))}
+        <p className="font-mono text-[10px] text-text-muted mt-4 tracking-[0.04em]">
+          Updates every hour from on-chain ERC-8183 activity.
+        </p>
+        <div className="mt-4">
+          <Link href={`/badge/${address}`} className="font-mono text-[10px] text-text-muted hover:text-text underline underline-offset-2 tracking-[0.04em]">
+            view badge page →
+          </Link>
         </div>
       </div>
     </div>

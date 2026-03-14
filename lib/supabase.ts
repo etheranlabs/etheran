@@ -151,6 +151,11 @@ export async function getProvider(address: string): Promise<Provider | null> {
   return data
 }
 
+// Alias — normalize address to lowercase before querying
+export async function getProviderByAddress(address: string): Promise<Provider | null> {
+  return getProvider(address.toLowerCase())
+}
+
 export async function getEvaluators(): Promise<Evaluator[]> {
   const { data, error } = await supabase
     .from('evaluators')
