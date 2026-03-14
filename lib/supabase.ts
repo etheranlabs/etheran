@@ -277,3 +277,41 @@ export const EVALUATOR_SEED: EvaluatorRegistryEntry[] = [
     status: 'inactive',
   },
 ]
+
+// ─── Reputation Sync ─────────────────────────────────────────────────────────
+
+export interface ReputationSync {
+  address: string
+  etheran_score: number | null
+  erc8004_score: number | null
+  last_synced_at: string | null
+  status: 'synced' | 'pending' | 'diverged' | 'failed'
+  tx_hash: string | null
+}
+
+export async function getReputationSyncList(): Promise<ReputationSync[]> {
+  const { data, error } = await supabase
+    .from('reputation_sync')
+    .select('*')
+    .order('last_synced_at', { ascending: false })
+    .limit(200)
+  if (error) return []
+  return data ?? []
+}
+
+export async function getReputationSyncEntry(address: string): Promise<ReputationSync | null> {
+  const { data } = await supabase
+    .from('reputation_sync')
+    .select('*')
+    .eq('address', address.toLowerCase())
+    .single()
+  return data ?? null
+}
+
+export async function getSyncedCount(): Promise<number> {
+  const { count } = await supabase
+    .from('reputation_sync')
+    .select('address', { count: 'exact', head: true })
+    .eq('status', 'synced')
+  return count ?? 0
+}

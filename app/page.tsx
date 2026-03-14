@@ -1,4 +1,5 @@
 import { StatCard, StatCardSkeleton } from '@/components/stat-card'
+import { getSyncedCount } from '@/lib/supabase'
 import { JobTable } from '@/components/job-table'
 import { fetchAllJobs, fetchAllProviders, fetchAllEvaluators } from '@/lib/subgraph'
 import { formatVolume } from '@/lib/format'
@@ -6,9 +7,10 @@ import { formatVolume } from '@/lib/format'
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [allJobs, allProviders] = await Promise.all([
+  const [allJobs, allProviders, syncedCount] = await Promise.all([
     fetchAllJobs(1000).catch(() => []),
     fetchAllProviders().catch(() => []),
+    getSyncedCount().catch(() => 0),
   ])
 
   const recentJobs = allJobs.slice(0, 10)
@@ -64,7 +66,7 @@ export default async function HomePage() {
       {/* Live Stats */}
       <section className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-px bg-border">
             {summary ? (
               <>
                 <StatCard
@@ -82,9 +84,15 @@ export default async function HomePage() {
                   value={summary.activeProviders.toLocaleString()}
                   sub="completed >= 1 job, last 30d"
                 />
+                <StatCard
+                  label="Synced to ERC-8004"
+                  value={syncedCount.toLocaleString()}
+                  sub="reputation pushed on-chain"
+                />
               </>
             ) : (
               <>
+                <StatCardSkeleton />
                 <StatCardSkeleton />
                 <StatCardSkeleton />
                 <StatCardSkeleton />

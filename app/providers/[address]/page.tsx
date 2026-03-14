@@ -7,6 +7,8 @@ import { formatDate, relativeTime, formatVolume, formatEth, formatPercent } from
 import { JobTable } from '@/components/job-table'
 import { StatusBadge } from '@/components/status-badge'
 import { CopyButton } from '@/components/copy-button'
+import { getReputationSyncEntry } from '@/lib/supabase'
+import { basescanTx } from '@/lib/viem'
 
 export const revalidate = 60
 
@@ -23,11 +25,12 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProviderProfilePage({ params }: Props) {
   const address = params.address.toLowerCase()
 
-  const [providers, reputation, jobs, ens] = await Promise.all([
+  const [providers, reputation, jobs, ens, syncEntry] = await Promise.all([
     fetchAllProviders(),
     computeReputation(address),
     fetchJobsByProvider(address),
     resolveEns(address),
+    getReputationSyncEntry(address).catch(() => null),
   ])
 
   // Provider might not be in subgraph providers list yet (only created after job completed/rejected)
@@ -202,6 +205,52 @@ const provider = providerEntry ?? {
         <div className="border border-border">
           <JobTable jobs={jobs} />
         </div>
+      </div>
+
+      {/* ERC-8004 Identity */}
+      <div className="mt-12 pt-8 border-t border-border">
+        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-6">
+          ERC-8004 Identity
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-border mb-4">
+          <div className="bg-bg p-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1.5">Etheran Score</p>
+            <p className="font-display font-light text-2xl text-text">
+              {reputation?.score != null ? Math.round(reputation.score) : '—'}
+            </p>
+          </div>
+          <div className="bg-bg p-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1.5">On-chain Score</p>
+            <p className="font-display font-light text-2xl text-text">
+              {syncEntry?.erc8004_score != null ? Math.round(syncEntry.erc8004_score) : '—'}
+            </p>
+          </div>
+          <div className="bg-bg p-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1.5">Last Synced</p>
+            <p className="font-display font-light text-2xl text-text">
+              {syncEntry?.last_synced_at ? relativeTime(syncEntry.last_synced_at) : '—'}
+            </p>
+          </div>
+          <div className="bg-bg p-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-1.5">Status</p>
+            <p className="font-display font-light text-2xl text-text">
+              {syncEntry?.status ?? 'pending'}
+            </p>
+          </div>
+        </div>
+        {syncEntry?.tx_hash && (
+          <p className="font-mono text-[10px] text-text-muted">
+            last sync tx:{' '}
+            <a
+              href={`https://sepolia.basescan.org/tx/${syncEntry.tx_hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-text underline underline-offset-2"
+            >
+              {syncEntry.tx_hash.slice(0, 18)}...
+            </a>
+          </p>
+        )}
       </div>
 
       {/* Embed Badge */}

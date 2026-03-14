@@ -21,6 +21,7 @@ const links = [
   { href: '/evaluators/registry', label: 'Registry' },
   { href: '/jobs', label: 'Jobs' },
   { href: '/analytics', label: 'Analytics' },
+  { href: '/sync', label: 'Sync' },
   { href: '/getstarted', label: 'Docs' },
 ]
 
