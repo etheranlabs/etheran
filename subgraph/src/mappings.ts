@@ -154,7 +154,8 @@ export function handleJobCompleted(event: JobCompleted): void {
   provider.save()
 
   // Update evaluator
-  const evaluator = loadOrCreateEvaluator(event.params.evaluator, event.block.timestamp)
+  // evaluator address tracked via job entity
+const evaluator = loadOrCreateEvaluator(job.evaluator, event.block.timestamp)
   evaluator.evaluationsCompleted = evaluator.evaluationsCompleted + 1
   evaluator.lastEvaluationAt = event.block.timestamp
   evaluator.save()
@@ -183,7 +184,8 @@ export function handleJobRejected(event: JobRejected): void {
   provider.save()
 
   // Update evaluator
-  const evaluator = loadOrCreateEvaluator(event.params.evaluator, event.block.timestamp)
+  // evaluator address tracked via job entity
+const evaluator = loadOrCreateEvaluator(job.evaluator, event.block.timestamp)
   evaluator.evaluationsRejected = evaluator.evaluationsRejected + 1
   evaluator.lastEvaluationAt = event.block.timestamp
   evaluator.save()

@@ -3,16 +3,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
         "name": "jobId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "evaluator",
-        "type": "address"
+        "type": "uint256",
+        "indexed": true
       }
     ],
     "name": "JobCompleted",
@@ -84,16 +77,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
         "name": "jobId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "funder",
-        "type": "address"
+        "type": "uint256",
+        "indexed": true
       }
     ],
     "name": "JobFunded",
@@ -103,16 +89,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
         "name": "jobId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "evaluator",
-        "type": "address"
+        "type": "uint256",
+        "indexed": true
       }
     ],
     "name": "JobRejected",

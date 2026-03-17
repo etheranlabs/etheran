@@ -24,13 +24,13 @@ dataSources:
       eventHandlers:
         - event: JobCreated(indexed uint256,indexed address,indexed address,address,uint256,string,uint256)
           handler: handleJobCreated
-        - event: JobFunded(indexed uint256,indexed address)
+        - event: JobFunded(indexed uint256)
           handler: handleJobFunded
         - event: JobSubmitted(indexed uint256,indexed address,string)
           handler: handleJobSubmitted
-        - event: JobCompleted(indexed uint256,indexed address)
+        - event: JobCompleted(indexed uint256)
           handler: handleJobCompleted
-        - event: JobRejected(indexed uint256,indexed address)
+        - event: JobRejected(indexed uint256)
           handler: handleJobRejected
         - event: JobExpired(indexed uint256)
           handler: handleJobExpired
