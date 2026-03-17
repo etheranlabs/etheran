@@ -110,7 +110,7 @@ export default async function SyncPage() {
                     <td className="py-3 px-4 font-mono text-[11px] text-text-muted">
                       {row.tx_hash ? (
                         <a
-                          href={`https://sepolia.basescan.org/tx/${row.tx_hash}`}
+                          href={`https://basescan.org/tx/${row.tx_hash}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:text-text transition-colors"
@@ -155,7 +155,7 @@ export default async function SyncPage() {
       )}
 
       <p className="font-mono text-[10px] text-text-muted mt-6 tracking-[0.04em]">
-        sync interval: hourly · threshold: ±5 points · chain: base sepolia
+        sync interval: hourly · threshold: ±5 points · chain: base mainnet
       </p>
     </div>
   )

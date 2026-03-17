@@ -242,7 +242,7 @@ const provider = providerEntry ?? {
           <p className="font-mono text-[10px] text-text-muted">
             last sync tx:{' '}
             <a
-              href={`https://sepolia.basescan.org/tx/${syncEntry.tx_hash}`}
+              href={`https://basescan.org/tx/${syncEntry.tx_hash}`}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-text underline underline-offset-2"

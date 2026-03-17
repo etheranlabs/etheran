@@ -5,7 +5,7 @@
 import { useState } from 'react'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useBalance, useConnect, useDisconnect } from 'wagmi'
 import { parseEther, isAddress } from 'viem'
-import { baseSepolia } from 'wagmi/chains'
+import { base } from 'wagmi/chains'
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/lib/wagmi-config'
 import Link from 'next/link'
 
@@ -20,7 +20,7 @@ const KNOWN_EVALUATORS = [
 
 export default function CreateJobPage() {
   const { address, isConnected, chain } = useAccount()
-  const { data: balance } = useBalance({ address, chainId: baseSepolia.id })
+  const { data: balance } = useBalance({ address, chainId: base.id })
   const { connectors, connect, isPending: isConnecting } = useConnect()
   const { disconnect } = useDisconnect()
 
@@ -33,7 +33,7 @@ export default function CreateJobPage() {
   const { writeContract, data: txHash, isPending, error } = useWriteContract()
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash })
 
-  const wrongNetwork = isConnected && chain?.id !== baseSepolia.id
+  const wrongNetwork = isConnected && chain?.id !== base.id
   const isValid = isAddress(provider) && isAddress(evaluator) && specHash.length > 0 && Number(valueEth) > 0
 
   function handleSubmit(e: React.FormEvent) {
@@ -59,7 +59,7 @@ export default function CreateJobPage() {
         <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted mb-3">On-chain Action</p>
         <h1 className="font-display font-light text-3xl sm:text-5xl text-text tracking-wide mb-4">Create Job</h1>
         <p className="font-mono text-[11px] text-text-muted leading-relaxed">
-          Post a new ERC-8183 job on Base Sepolia. The bounty is locked in escrow until the evaluator approves.
+          Post a new ERC-8183 job on Base mainnet. The bounty is locked in escrow until the evaluator approves.
         </p>
       </div>
 
@@ -83,7 +83,7 @@ export default function CreateJobPage() {
               <p className="font-mono text-[11px] text-text">{address?.slice(0, 12)}...{address?.slice(-6)}</p>
               {balance && (
                 <p className="font-mono text-[10px] text-text-muted mt-0.5">
-                  {(Number(balance.value) / 1e18).toFixed(4)} ETH · Base Sepolia
+                  {(Number(balance.value) / 1e18).toFixed(4)} ETH · Base
                 </p>
               )}
             </div>
@@ -101,7 +101,7 @@ export default function CreateJobPage() {
       {wrongNetwork && (
         <div className="border border-[#ff6b6b] p-4 mb-6">
           <p className="font-mono text-[11px] text-[#ff6b6b]">
-            ⚠️ Switch to Base Sepolia (Chain ID 84532) in your wallet.
+            ⚠️ Switch to Base (Chain ID 84532) in your wallet.
           </p>
         </div>
       )}
@@ -111,11 +111,11 @@ export default function CreateJobPage() {
         <div className="border border-[#4ade80] p-5 mb-8">
           <p className="font-mono text-[10px] uppercase tracking-[0.06em] text-[#4ade80] mb-2">✓ Job Created!</p>
           <p className="font-mono text-[11px] text-text-muted mb-3">
-            Your job is live on Base Sepolia. It will appear on Etheran within ~60 seconds.
+            Your job is live on Base. It will appear on Etheran within ~60 seconds.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href={`https://sepolia.basescan.org/tx/${txHash}`}
+              href={`https://basescan.org/tx/${txHash}`}
               target="_blank" rel="noopener noreferrer"
               className="font-mono text-[10px] uppercase tracking-[0.06em] text-text-muted hover:text-text transition-colors"
             >
@@ -190,7 +190,7 @@ export default function CreateJobPage() {
                   ['Evaluator', `${evaluator.slice(0,10)}...${evaluator.slice(-6)}`],
                   ['Bounty', `${valueEth} ETH`],
                   ['Expires', `${daysExpiry} days`],
-                  ['Network', 'Base Sepolia'],
+                  ['Network', 'Base'],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between">
                     <span className="font-mono text-[10px] text-text-muted">{k}</span>

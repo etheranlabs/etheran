@@ -1,6 +1,6 @@
 import { createWalletClient, createPublicClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { baseSepolia } from 'viem/chains'
+import { base } from 'viem/chains'
 
 // ─── Clients ─────────────────────────────────────────────────────────────────
 // Lazy-init so missing env vars don't crash at import time.
@@ -10,13 +10,13 @@ function getWalletClient() {
   const rpc = process.env.NEXT_PUBLIC_RPC_URL
   if (!pk || !rpc) throw new Error('SYNC_WALLET_PRIVATE_KEY and NEXT_PUBLIC_RPC_URL must be set')
   const account = privateKeyToAccount(pk as `0x${string}`)
-  return createWalletClient({ account, chain: baseSepolia, transport: http(rpc) })
+  return createWalletClient({ account, chain: base, transport: http(rpc) })
 }
 
 function getPublicClient() {
   const rpc = process.env.NEXT_PUBLIC_RPC_URL
   if (!rpc) throw new Error('NEXT_PUBLIC_RPC_URL must be set')
-  return createPublicClient({ chain: baseSepolia, transport: http(rpc) })
+  return createPublicClient({ chain: base, transport: http(rpc) })
 }
 
 function getContractAddress(): `0x${string}` {

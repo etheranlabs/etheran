@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const CONTRACT = '0x25E78Fa7cD4D52Fa752D725f128ADDF2B73040e0'
-const BASESCAN = `https://sepolia.basescan.org/address/${CONTRACT}`
+const BASESCAN = `https://basescan.org/address/${CONTRACT}`
 
 export default function GetStartedPage() {
   return (
@@ -56,7 +56,7 @@ export default function GetStartedPage() {
           ))}
         </div>
         <p className="font-mono text-[10px] text-text-muted">
-          Network: <span className="text-text">Base Sepolia</span> · Chain ID: <span className="text-text">84532</span> · RPC: <span className="text-text">https://sepolia.base.org</span>
+          Network: <span className="text-text">Base Sepolia</span> · Chain ID: <span className="text-text">84532</span> · RPC: <span className="text-text">https://mainnet.base.org</span>
         </p>
       </section>
 
@@ -136,7 +136,7 @@ export default function GetStartedPage() {
 from web3 import Web3
 import time
 
-RPC  = "https://sepolia.base.org"
+RPC  = "https://mainnet.base.org"
 CONTRACT = "${CONTRACT}"
 CHAIN_ID = 84532
 
@@ -223,7 +223,7 @@ const ABI = [/* same ABI as above */]
 const client = createWalletClient({
   account: privateKeyToAccount('0xYOUR_PRIVATE_KEY'),
   chain: baseSepolia,
-  transport: http('https://sepolia.base.org'),
+  transport: http('https://mainnet.base.org'),
 })
 
 const expires = BigInt(Math.floor(Date.now() / 1000) + 7 * 24 * 3600)

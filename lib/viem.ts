@@ -1,19 +1,15 @@
 import { createPublicClient, http } from 'viem'
-import { baseSepolia, base } from 'viem/chains'
+import { base } from 'viem/chains'
 
-const chainId = Number(process.env.NEXT_PUBLIC_CHAIN_ID ?? '84532')
-const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL ?? 'https://sepolia.base.org'
-
-const chain = chainId === 8453 ? base : baseSepolia
+const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL ?? 'https://mainnet.base.org'
 
 export const publicClient = createPublicClient({
-  chain,
+  chain: base,
   transport: http(rpcUrl),
 })
 
 export async function resolveEns(address: string): Promise<string | null> {
   try {
-    // ENS is only on mainnet — for Base Sepolia this will return null gracefully
     const name = await publicClient.getEnsName({
       address: address as `0x${string}`,
     })
@@ -38,15 +34,9 @@ export function formatWei(wei: bigint | string | number, decimals = 18): string 
 }
 
 export function basescanTx(hash: string): string {
-  const base = chainId === 8453
-    ? 'https://basescan.org'
-    : 'https://sepolia.basescan.org'
-  return `${base}/tx/${hash}`
+  return `https://basescan.org/tx/${hash}`
 }
 
 export function basescanAddress(address: string): string {
-  const base = chainId === 8453
-    ? 'https://basescan.org'
-    : 'https://sepolia.basescan.org'
-  return `${base}/address/${address}`
+  return `https://basescan.org/address/${address}`
 }

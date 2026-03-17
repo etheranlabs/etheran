@@ -31,10 +31,10 @@ export default async function EvaluatorRegistryPage() {
       <div className="border border-border mt-8 p-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mb-2">Data note</p>
         <p className="font-mono text-[11px] text-text-muted leading-relaxed">
-          Evaluator addresses and job counts are read directly from the ERC-8183 subgraph on Base Sepolia — they reflect real on-chain activity.
+          Evaluator addresses and job counts are read directly from the ERC-8183 subgraph on Base — they reflect real on-chain activity.
           Domain specialization is not encoded in the ERC-8183 spec and is not available on-chain.
           The <span className="text-text">domain</span> column will remain blank until a self-reporting or enrichment mechanism is added.
-          Mainnet deployment pending — registry will grow automatically as ERC-8183 contracts are deployed on Base mainnet.
+          Registry grows automatically as ERC-8183 contracts record activity on Base.
         </p>
       </div>
     </div>

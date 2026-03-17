@@ -82,7 +82,7 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
               <div>
                 <p className={`font-mono text-[9px] uppercase tracking-[0.06em] mb-0.5 ${dark ? 'text-[#444441]' : 'text-text-muted'}`}>Client</p>
                 <a
-                  href={`https://sepolia.basescan.org/address/${job.client}`}
+                  href={`https://basescan.org/address/${job.client}`}
                   target="_blank" rel="noopener noreferrer"
                   className="font-mono text-[10px] text-text hover:underline"
                 >
@@ -130,7 +130,7 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
                 <td><StatusBadge status={job.status} dark={dark} /></td>
                 <td>
                   <a
-                    href={`https://sepolia.basescan.org/address/${job.client}`}
+                    href={`https://basescan.org/address/${job.client}`}
                     target="_blank" rel="noopener noreferrer"
                     className="hover:underline underline-offset-2"
                   >
@@ -146,7 +146,7 @@ export function JobTable({ jobs, showFilter = false, dark }: JobTableProps) {
                 <td>
                   {job.evaluator ? (
                     <a
-                      href={`https://sepolia.basescan.org/address/${job.evaluator}`}
+                      href={`https://basescan.org/address/${job.evaluator}`}
                       target="_blank" rel="noopener noreferrer"
                       className="hover:underline underline-offset-2"
                     >

@@ -100,10 +100,7 @@ export default async function HomePage() {
             )}
           </div>
 
-          {/* Testnet notice */}
-          <p className="font-mono text-[10px] text-text-muted mt-4 tracking-[0.04em]">
-            Testnet data. Base Sepolia. ERC-8183 mainnet deployment pending.
-          </p>
+          
         </div>
       </section>
 
